@@ -10,6 +10,6 @@ bagel
 cereal
 chicken bowl
 
-everything tasted fine.
+everything tasted delicious.
 
-I'm feeling frustrated.
+I'm feeling better now.
