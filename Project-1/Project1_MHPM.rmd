@@ -37,6 +37,7 @@ library(kableExtra)
 library(magrittr)
 library(readr)
 library(geosphere)
+library(dplyr)
 ```
 
 ## Background
@@ -74,6 +75,24 @@ dplyr::filter(X1.22.20 != 0)
 most_cases <- data[which.max(data$X1.22.20), ]
 
 print(most_cases)
+
+# Filter for the first day and select relevant columns
+first_day <- cases %>%
+  filter(X1.22.20 != 0) %>%
+  select(Province.State, Country.Region, X1.22.20)
+
+# Identify the country with the highest confirmed cases
+max_cases <- first_day %>%
+  filter(X1.22.20 == max(X1.22.20)) %>%
+  pull(Country.Region)
+
+# Determine if the country is the origin of the outbreak
+if (max_cases == "China") {
+  print("The origin of the COVID-19 outbreak is China.")
+} else {
+  print("The origin of the COVID-19 outbreak is not China.")
+}
+
 ```
 
 ### Objective 2
