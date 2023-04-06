@@ -67,15 +67,13 @@ cases_df <- read.csv(confirmed_cases, header = TRUE, na.strings = c("", " "))
 
 deaths_df <- read.csv(covid_deaths, header = TRUE, na.strings = c("", " "))
 
-cases_df[cases_df$Country.Region == "China", ]
-```
-first_day_cases <- select(cases, Province.State, Country.Region, `1/22/20`)
-first_day_deaths <- select(deaths, Province.State, Country.Region, `1/22/20`)
+data <- dplyr::select(cases_df, Province.State, Country.Region, X1.22.20) %>%
+  
+dplyr::filter(X1.22.20 != 0)
 
-first_day_data <- inner_join(first_day_cases, first_day_deaths, by = c("Province.State", "Country.Region"))
+most_cases <- data[which.max(data$X1.22.20), ]
 
-head(first_day_data)
-
+print(most_cases)
 ```
 
 ### Objective 2
