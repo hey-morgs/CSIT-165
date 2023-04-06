@@ -1,0 +1,155 @@
+---
+title: "Lab2_resubmit"
+author: "Morgan Henderson"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+# Part 1
+### Puppy Fever
+In an ideal world, I would have 47 puppies. 
+```r
+puppies<-47
+```
+```{r number of puppies, echo=FALSE}
+puppies<- 47
+puppies
+```
+In this world, each puppy costs $15.
+```r
+puppy_price<-15
+```
+```{r puppy price, echo=FALSE}
+puppy_price<- 15
+puppy_price
+```
+To figure out how much all my puppies will cost, we need to calculate the total cost of all 47 puppies at $15 each.
+```r
+total_cost<-puppies*puppy_price
+```
+```{r total cost, echo=FALSE}
+total_cost<-puppies*puppy_price
+total_cost
+```
+Unfortunately, there is a limit to how much I am allowed to spend on new puppies, and that is a grand total of $1000. Will I be able to buy all my puppies?
+```r
+too_expensive <- total_cost>1000
+```
+```{r too expensive, echo=FALSE}
+too_expensive <- total_cost>1000
+too_expensive
+```
+GREAT NEWS! The total cost of all 47 puppies is less than $1000! So if there's still money left over, how many puppies would I be able to buy with my money?
+```r
+max_puppies <- 1000/puppy_price
+```
+```{r max puppies, echo=FALSE}
+max_puppies <- 1000/puppy_price
+floor(max_puppies)
+```
+I would be able to buy 66 puppies with my money.
+
+# Part 2
+### New ID Cards
+
+```{r my name, echo=TRUE}
+assign("my_name", "Morgan")
+my_name <- "Morgan"
+"Morgan" -> my_name
+my_name = "Morgan"
+my_name
+```
+```{r my height, echo=TRUE}
+my_height <- 65
+my_height
+```
+```{r favorite day, echo=TRUE}
+favorite_day <- as.Date("2023-04-06")
+favorite_day
+```
+```{r favorite quote, echo=TRUE}
+favorite_quote <- "Experience is what you get when you don't get what you want."
+favorite_quote
+nchar(favorite_quote)
+```
+```{r classes, echo=TRUE}
+class(my_name)
+class(my_height)
+class(favorite_day)
+class(favorite_quote)
+
+```
+```r
+as.numeric(my_name)
+as.numeric(my_height)
+as.numeric(favorite_day)
+as.numeric(favorite_quote)
+```
+After coercing the variables to numeric values, our 2 character variables result in "Warning: NAs introduced by coercion" while the height variable stays the same-- it is already a number-- and the date gets converted to the number of days since January 1, 1970.
+```{r to combine, echo=TRUE}
+id <- c(my_name, my_height, favorite_day, favorite_quote)
+id
+class(id)
+```
+As we can see, the class of the vector id is "character" because you can only store variables of the same data type in a vector. So, our height and favorite_day were converted to character variables within the vector, but the variables themselves have not changed, and still contain the same variable type they originally had. 
+
+```{r using cat(), echo=TRUE}
+cat("My name is ", my_name, "\n")
+cat("My height is ", my_height, " inches\n")
+cat("My favorite day is ", favorite_day, "\n")
+cat("My favorite quote is: '", favorite_quote, "'\n")
+```
+
+```{r using paste(), echo=TRUE}
+paste("My name is", my_name)
+paste("My height is", my_height, "inches")
+paste("My favorite day is", favorite_day)
+paste("My favorite quote is:", favorite_quote)
+```
+cat(paste(x))
+```{r using cat paste, echo=TRUE}
+cat(paste("my name", my_name, "my height", my_height, "in", "my favorite day", favorite_day, "my favorite quote", favorite_quote))
+```
+paste(cat(x))
+```{r using paste cat, echo=TRUE}
+paste(cat("my name", my_name, "my height", my_height, "in", "my favorite day", favorite_day, "my favorite quote", favorite_quote))
+```
+
+In order to figure out the difference between the 2 functions, you can type a ? in front of any function, and R will tell you the description of the function. But if you're still having trouble, there are a few different places online you can look for answers. The first is Google, the classic, then StackOverflow, which is a Q&A forum I have already used in this class, and last is the RStudio Community. 
+
+The sep argument in paste tells the paste what to put as the separator between the items, the default is always a space but this defines it as whatever you'd like it to be. The collapse function is similar, but instead it dictates how the final string is separated. This matters when you are pasting together different vectors especially.
+
+If we wanted to append our variables within the id vector with a new line, we would use sep, as seen below: 
+
+```{r new lines, echo=TRUE}
+paste(id, sep="/n") 
+
+```
+
+Final ID card:
+```{r final id, echo=TRUE}
+cat(paste(my_name, paste(my_height, "inches"), favorite_day, favorite_quote, sep = "\n"))
+```
+
+# Part 3
+```{r min/max/mean, echo=TRUE}
+load("data.RData")
+
+
+a <- min(data)
+b <- max(data)
+c <- mean(data)
+
+#step 1
+w <- b^2 - 4 * a * c
+
+#step2
+x1 <- (-b + sqrt(w)) / (2 * a)
+x2 <- (-b - sqrt(w)) / (2 * a)
+
+#answers
+cat("x = {", paste(round(x1, 2), round(x2, 2), sep = ", "), "}")
+
+```
+    

@@ -1,0 +1,169 @@
+---
+title: "Lab3 - resubmit"
+author: "Morgan Henderson"
+date: "`r Sys.Date()`"
+output: html_document
+---
+```{r load variable}
+load("large_vector.RData")
+load("large_list.RData")
+
+```
+# Part 1: Iterations
+## Question 1 - Creating For and While loops
+### 1A
+```{r while loop, echo=TRUE}
+t <- 0
+i <- 1
+while (i <= length(large_vector)) {
+  t <- t + large_vector[i]
+  i <- i + 1
+}
+
+mean_while <- t / length(large_vector)
+print(mean_while)
+```
+### 1B
+```{r for loop, echo=TRUE}
+
+t <- 0
+for (x in large_vector) {
+  t <- t + x
+}
+
+mean_for <- t / length(large_vector)
+print(mean_for)
+```
+
+### 1C
+These methods are similar in that they both rotate through all the values within the data set until it runs out of info. However, vectorized functions will be more efficient because they are built to move through data sets without having to add all the additional syntax necessary for the for and while loops. 
+
+## Question 2 - Loops vs vectorized functions
+### 2A
+```{r, norm_for}
+library(tictoc)
+tic("for loop") 
+sum_large_vector <- 0
+for (i in 1:length(large_vector)) {
+  sum_large_vector <- sum_large_vector + large_vector[i]
+}
+norm_for <- numeric(length(large_vector))
+for (i in 1:length(large_vector)) {
+  norm_for[i] <- large_vector[i] / sum_large_vector
+}
+toc()
+
+sum(norm_for)
+
+```
+```{r, vector check}
+tic("vectorized check")
+
+norm_vectorized <- large_vector / sum(large_vector)
+sum(norm_vectorized)
+
+toc()
+```
+### 2B
+```{r norm_loop}
+tic("for loop")
+sum_large_vector <- 0
+for (i in 1:length(large_vector)) {
+  sum_large_vector <- sum_large_vector + large_vector[i]
+}
+norm_loop <- numeric(length(large_vector))
+for (i in 1:length(large_vector)) {
+  norm_loop[i] <- large_vector[i] / sum_large_vector
+}
+toc()
+
+sum(norm_loop)
+```
+
+You can tell easily from the results of the tictoc functions that the vectorized versions of the answer were calculated waaaayyy faster than the loops for the same answer and data set. Not only did it save time on the back end, the amount of typing on the coder's end is much less, which saves time overall. If we had multiple data sets that were all very large, I can see how this would end up increasing the amount of time significantly. In my experience, you want to keep things always as simple as you can, and avoid introducing unnecessary complication in order to reach the widest audience.
+
+## Question 3 - Apply vs loops
+### 3A
+```{r 3A}
+tic("apply function mean")
+mean_list_apply <- lapply(large_list, mean)
+toc()
+print(mean_list_apply)
+```
+### 3B
+```{r 3B}
+tic("for loop mean")
+mean_list_for <- list()
+for(i in seq_along(large_list)){
+  mean_list_for[[i]]<- mean(large_list[[i]])
+}
+toc()
+print(mean_list_for)
+```
+### 3C
+I was surprised to see that these methods had more similar computation times. As the lists get longer though, I could see how the .01s would add up and end up taking longer overall. 
+I think the apply function is much more readable, as it's basically just reading what data we want to work on, and what function we want applied (in this case, the mean). In addition, it just takes less time to type out the syntax. 
+
+# Part 2: Control
+## Question 4 - Doing it the Un-R way
+
+### 4A
+
+```{r count zeros}
+nbr_zeros_loop <- 0
+for (i in seq_along(large_vector)) {
+  if (large_vector[i] == 0) {
+    nbr_zeros_loop <- nbr_zeros_loop + 1
+  }
+}
+print(nbr_zeros_loop)
+```
+
+### 4B
+
+This piece of code froze my computer, I think it was taking too much bandwidth to calculate? I could see it processing but never reached the point where it turns into the .html when knitted.
+
+```
+smaller_vector_loop <- 0
+
+nbr_zeros_loop <- 0
+
+for (i in seq_along(large_vector)) {
+  
+  if (large_vector[i] == 0) {
+    nbr_zeros_loop <- nbr_zeros_loop + 1
+  } else {
+    smaller_vector_loop <- c(smaller_vector_loop, large_vector[i])
+  }
+}
+
+if ((nbr_zeros_loop + length(smaller_vector_loop)) == length(large_vector)) {
+  print("match")
+} else {
+  print("no match")
+}
+```
+
+## Question 5 - Doing it the R-Way
+### 5A
+
+```{r the R Way}
+nbr_zeros <- sum(large_vector == 0)
+print(nbr_zeros)
+
+if (nbr_zeros == nbr_zeros_loop) {
+  print("match")
+} else {
+  print("no match")
+}
+```
+### 5B
+```{r the R Way2}
+smaller_vector <- large_vector[large_vector != 0]
+
+if ((nbr_zeros + length(smaller_vector)) == length(large_vector)) {
+  print("match")
+} else {
+  print("no match")
+}
+```

@@ -3,7 +3,7 @@ title: "Project 1"
 author: "Name: Morgan Henderson \n Partner: Preena Maruthavelu"
 date: "`r Sys.Date()`"
 output: 
-  pdf_document:
+  html_document:
     toc: true
     toc_depth: 3
 header-includes:
@@ -51,7 +51,7 @@ Your and your partner's role is to play a data scientist from one of these two e
 
 Data for 2019 Novel Coronavirus is operated by the John Hopkins University Center for Systems Science and Engineering (JHU CSSE).
 Data includes daily time series CSV summary tables, including confirmations, recoveries, and deaths. 
-Country/region are countries/regions hat conform to World Health Organization (WHO).
+Country/region are countries/regions that conform to World Health Organization (WHO).
 Lat and Long refer to coordinates references for the user. 
 Date fields are stored in MM/DD/YYYY format.
 
@@ -59,6 +59,22 @@ Date fields are stored in MM/DD/YYYY format.
 
 ### Objective 1
 ```{r ob1}
+confirmed_cases <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
+
+covid_deaths <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
+
+cases_df <- read.csv(confirmed_cases, header = TRUE, na.strings = c("", " "))
+
+deaths_df <- read.csv(covid_deaths, header = TRUE, na.strings = c("", " "))
+
+cases_df[cases_df$Country.Region == "China", ]
+```
+first_day_cases <- select(cases, Province.State, Country.Region, `1/22/20`)
+first_day_deaths <- select(deaths, Province.State, Country.Region, `1/22/20`)
+
+first_day_data <- inner_join(first_day_cases, first_day_deaths, by = c("Province.State", "Country.Region"))
+
+head(first_day_data)
 
 ```
 
